@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <div class="container">
+        <h2 class="mb-4">Admin Dashboard: Manage Users</h2>
+
+        {% if users %}
+            {% for user in users %}
+                <div class="user-card">
+                    <h5>{{ user.username }}</h5>
+                    <p>Email: {{ user.email }}</p>
+                    <p>User ID: {{ user.id }}</p>
+
+                    <form method="post" action="{% url 'delete_user' user.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-delete text-white">Delete</button>
+                    </form>
+
+                    <a href="{% url 'update_user' user.id %}" class="btn btn-sm btn-update text-white">Update</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No users found.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

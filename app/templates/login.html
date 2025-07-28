@@ -1,0 +1,27 @@
+
+<!-- login.html -->
+{% extends "base.html" %}
+{% block page %} {% endblock %}
+
+{% block header %}Welcome,{% endblock %}
+{% block form %}
+ <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+{% endblock %}
+
+{% block link %}
+<p class="mt-4 text-center text-sm">Don't have an account! <a href="{% url 'register' %}" class="text-cyan-400 hover:underline">Register</a></p>
+{% endblock %}
+
