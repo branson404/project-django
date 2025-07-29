@@ -1,18 +1,9 @@
 newline
 the first line
 newline
-<<<<<<< HEAD
-
-added local line 1
-
-=======
-<<<<<<< HEAD
 buck it in online
-=======
 
 added local line 1
 
->>>>>>> 6c30603 (local network added local line)
->>>>>>> 00e087d (rebased 777)
 
 this important line
