@@ -2,5 +2,7 @@ newline
 the first line
 newline
 
+added local line 1
+
 
 this important line
