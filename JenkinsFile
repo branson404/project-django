@@ -1,0 +1,35 @@
+pipeline {
+    agent docker
+
+    stages {
+        stage('Git checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/branson404/project-django'
+            }
+        }
+        stage('SonarQube') {
+            steps {
+                withSonarQubeEnv('MySonarQube') {
+                    sh 'sonar-scanner -Dsonar.projectKey=project-django'
+                }
+            }
+        }
+        stage('Build Docker image') {
+            steps {
+                sh 'docker build -t branson404/project-django .'
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                sh 'docker run -d -p 8000:8000 branson404/project-django'
+            }
+        }
+        stage('Docker login') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
+                }
+            }
+        }
+    }
+}
