@@ -1,5 +1,12 @@
 pipeline {
-    agent docker
+    agent {
+        docker {
+            image: 'docker:latest'
+        }
+    }
+    environment {
+        DOCKER_IMAGE = "branson404/project-django"
+    }
 
     stages {
         stage('Git checkout') {
@@ -9,19 +16,19 @@ pipeline {
         }
         stage('SonarQube') {
             steps {
-                withSonarQubeEnv('MySonarQube') {
+                withSonarQubeEnv('sonarqube-credentials') {
                     sh 'sonar-scanner -Dsonar.projectKey=project-django'
                 }
             }
         }
         stage('Build Docker image') {
             steps {
-                sh 'docker build -t branson404/project-django .'
+                sh 'docker build -t $DOCKER_IMAGE .'
             }
         }
         stage('Run Docker Container') {
             steps {
-                sh 'docker run -d -p 8000:8000 branson404/project-django'
+                sh 'docker run -d -p 8000:8000 --name main_line $DOCKER_IMAGE'
             }
         }
         stage('Docker login') {
@@ -29,6 +36,11 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhubCred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
                 }
+            }
+        }
+        stage('Docker push') {
+            steps {
+                sh 'docker push $DOCKER_IMAGE'
             }
         }
     }
