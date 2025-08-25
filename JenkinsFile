@@ -3,7 +3,9 @@ pipeline {
     environment {
         DOCKER_IMAGE = "branson404/project-django"
     }
-
+    tools {
+        sonarQubeScanner 'SonarScanner' // Must match name in Jenkins tools config
+    }
     stages {
         stage('Git checkout') {
             steps {
