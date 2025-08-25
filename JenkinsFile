@@ -12,7 +12,7 @@ pipeline {
         stage('SonarQube') {
             steps {
                 withSonarQubeEnv('sonarqube-credentials') {
-                    sh 'sonar-scanner -Dsonar.projectKey=project-django'
+                    sh 'sonar -Dsonar.projectKey=project-django'
                 }
             }
         }
