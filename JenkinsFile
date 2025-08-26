@@ -31,7 +31,6 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                sh 'docker rm -f main_line || true' // optional cleanup before running
                 sh 'docker run -d -p 8000:8000 --name main_line $DOCKER_IMAGE'
             }
         }
