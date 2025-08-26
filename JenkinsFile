@@ -31,6 +31,11 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
+                sh '''
+                    if [ "$(docker ps -aq -f name=main_line)" ]; then
+                        docker rm -f main_line
+                    fi
+                '''
                 sh 'docker run -d -p 8000:8000 --name main_line $DOCKER_IMAGE'
             }
         }
