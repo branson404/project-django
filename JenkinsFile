@@ -17,7 +17,7 @@ pipeline {
                 script {
                     def sonarScanner = tool 'SonarScanner'
                     withSonarQubeEnv('sonarqube-credentials') {
-                        sh "${sonarScanner}/bin/sonar-scanner -Dsonar.projectKey=project-django"
+                        sh "${sonarScanner}/bin/sonar-scanner -Dsonar.projectKey=project-django -X"
                     }
                 }
             }
